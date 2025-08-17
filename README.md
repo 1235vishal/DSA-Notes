@@ -21,6 +21,7 @@ public static int getLargest(int Numbers[]) {
    return largest;
 }
 
+```java
  2. Get Smallest Element in Array
 
 public static int getSmallest(int Numbers[]) {
