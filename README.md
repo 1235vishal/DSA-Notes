@@ -226,7 +226,7 @@ Here are some commonly used sorting algorithms with implementations in **Java**.
 - Time Complexity: O(n²)  
 - Best Case: O(n) (already sorted)  
 
-```java
+
 public static void BubbleSorting(int arr[]) {
    for(int turn = 0; turn < arr.length-1; turn++) {
        for(int j = 0; j < arr.length-1-turn; j++) {
