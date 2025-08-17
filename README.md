@@ -21,9 +21,10 @@ public static int getLargest(int Numbers[]) {
    return largest;
 }
 
-```java
- 2. Get Smallest Element in Array
 
+ 2. Get Smallest Element in Array
+ 
+```java
 public static int getSmallest(int Numbers[]) {
   int smallest = Integer.MAX_VALUE; // +Infinity
   for(int i = 0; i < Numbers.length; i++) {
