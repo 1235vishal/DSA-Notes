@@ -310,7 +310,7 @@ public static void CountingSorting(int arr[]) {
     }
 }
 ```
-##  5. Built-in Sorting in Java
+##  5. Built-in Sorting in Java {MOST IMPORT SHORTCUT METHODE ARRAYS SORTING}
 ```java
 Best for Interviews → Always use Arrays.sort()
 
