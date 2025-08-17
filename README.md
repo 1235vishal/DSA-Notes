@@ -8,8 +8,9 @@ So I can open this repo anytime and revise everything quickly 🚀.
 1. Arrays ✅
 
 
-1. Get Largest Element in Array
+## 1. Get Largest Element in Array
 
+```java
 public static int getLargest(int Numbers[]) {
    int largest = Integer.MIN_VALUE; // -Infinity
    for(int i = 0; i < Numbers.length; i++) {
@@ -20,7 +21,8 @@ public static int getLargest(int Numbers[]) {
    return largest;
 }
 
-2. Get Smallest Element in Array
+ 2. Get Smallest Element in Array
+
 public static int getSmallest(int Numbers[]) {
   int smallest = Integer.MAX_VALUE; // +Infinity
   for(int i = 0; i < Numbers.length; i++) {
@@ -30,7 +32,6 @@ public static int getSmallest(int Numbers[]) {
   }
   return smallest;
 }
-
 3. Linear Search
 public static int LinearSearch(int Numbers[], int key) {
   for(int i = 0; i < Numbers.length; i++) {
@@ -42,6 +43,7 @@ public static int LinearSearch(int Numbers[], int key) {
 }
 
 4. Binary Search (Array must be sorted)
+
 public static int BinearySearch(int Numbers[], int key) {
   int start = 0; int end = Numbers.length - 1;
   while(start <= end) {
@@ -60,6 +62,7 @@ public static int BinearySearch(int Numbers[], int key) {
 }
 
 5. Reverse Array
+
 public static void Reverse(int Numbers[]) {
   int first = 0; int last = Numbers.length - 1;
   while(first < last) {
@@ -72,6 +75,7 @@ public static void Reverse(int Numbers[]) {
 }
 
 6. Print All Pairs in Array
+
 public static void PairsofNum(int Numbers[]) {
   int tp = 0;
   for(int i = 0; i < Numbers.length; i++) {
@@ -91,6 +95,7 @@ public static void PairsofNum(int Numbers[]) {
 }
 
 7. Print All Subarrays
+
 public static void SubArrays(int Numbers[]) {
    int tp = 0;
    for(int i = 0; i < Numbers.length; i++) {
@@ -109,6 +114,7 @@ public static void SubArrays(int Numbers[]) {
 }
 
 8. Maximum Sum of Subarrays (Brute Force)
+
 public static void MaxSumSubArrays(int Numbers[]) {
   int CurrentSum = 0;
   int MaxSum = Integer.MIN_VALUE;
@@ -132,6 +138,7 @@ public static void MaxSumSubArrays(int Numbers[]) {
 }
 
 9. Maximum Sum using Prefix Array
+
 public static void PrefixSubArray(int Numbers[]) {
   int CurrentSum = 0;
   int MaxSum = Integer.MIN_VALUE;
@@ -157,6 +164,7 @@ public static void PrefixSubArray(int Numbers[]) {
 }
 
 10. Maximum Sum using Kadane’s Algorithm
+
 public static void KandansSum(int Numbers[]) {
   int currentSum = 0;
   int MaxSum = Integer.MIN_VALUE;
@@ -171,6 +179,7 @@ public static void KandansSum(int Numbers[]) {
 }
 
 11. Main Method to Test All Functions
+
 public static void main(String[] args) {
   int Numbers[] = {2, 4, 6, 8, 10, 12, 14};
   //below array only for Kadane's algorithm
