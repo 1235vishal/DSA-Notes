@@ -341,3 +341,103 @@ public static void main(String[] args) {
    System.out.println();
 }
 ```
+
+# 📘 2D Arrays in Java
+
+---
+
+## 🔹 Searching in 2D Array
+- Traverse through each element and compare with the key.  
+- **Time Complexity**: O(n × m)  
+
+```java
+public static boolean Search(int matrix[][], int key) {
+    for(int i = 0; i < matrix.length; i++) {
+        for(int j = 0; j < matrix[0].length; j++) {
+            if(matrix[i][j] == key) {
+                System.out.println("Key found at: (" + i + "," + j + ")");
+                return true;
+            }
+        }
+    }
+    System.out.println("Key not found");
+    return false;
+}
+```
+## Spiral Matrix Traversal
+```
+Print elements in spiral order (top → right → bottom → left).
+
+Use 4 pointers: startRow, endRow, startCol, endCol.
+
+public static void PrintSpiral(int matrix[][]) {
+    int startRow = 0, startCol = 0;
+    int endRow = matrix.length - 1;
+    int endCol = matrix[0].length - 1;
+
+    while(startRow <= endRow && startCol <= endCol) {
+        // top
+        for(int j = startCol; j <= endCol; j++) {
+            System.out.print(matrix[startRow][j] + " ");
+        }
+
+        // right
+        for(int i = startRow + 1; i <= endRow; i++) {
+            System.out.print(matrix[i][endCol] + " ");
+        }
+
+        // bottom
+        for(int j = endCol - 1; j >= startCol; j--) {
+            if(startRow == endRow) break;
+            System.out.print(matrix[endRow][j] + " ");
+        }
+
+        // left
+        for(int i = endRow - 1; i > startRow; i--) {
+            if(startCol == endCol) break;
+            System.out.print(matrix[i][startCol] + " ");
+        }
+
+        startRow++; endRow--;
+        startCol++; endCol--;
+    }
+    System.out.println();
+}
+```
+##  Diagonal Sum of Matrix
+```java
+Primary diagonal: matrix[i][i]
+
+Secondary diagonal: matrix[i][n-1-i]
+
+Optimized in O(n) time.
+
+public static int DiagonalSum(int matrix[][]) {
+    int sum = 0;
+    for(int i = 0; i < matrix.length; i++) {
+        // Primary diagonal
+        sum += matrix[i][i];
+
+        // Secondary diagonal
+        if(i != matrix.length - 1 - i) {
+            sum += matrix[i][matrix.length - 1 - i];
+        }
+    }
+    return sum;
+}
+```
+## 🏁 Main Method Example
+```java
+public static void main(String[] args) {
+    int matrix[][] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12},
+        {13, 14, 15, 16}
+    };
+
+    // Search(matrix, 7);
+    // PrintSpiral(matrix);
+    System.out.println("Diagonal Sum = " + DiagonalSum(matrix));
+}
+```
