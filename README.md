@@ -365,11 +365,12 @@ public static boolean Search(int matrix[][], int key) {
 }
 ```
 ## Spiral Matrix Traversal
-```
-Print elements in spiral order (top → right → bottom → left).
 
-Use 4 pointers: startRow, endRow, startCol, endCol.
+- Print elements in spiral order (top → right → bottom → left).
 
+- Use 4 pointers: startRow, endRow, startCol, endCol.
+
+```java
 public static void PrintSpiral(int matrix[][]) {
     int startRow = 0, startCol = 0;
     int endRow = matrix.length - 1;
@@ -405,13 +406,14 @@ public static void PrintSpiral(int matrix[][]) {
 }
 ```
 ##  Diagonal Sum of Matrix
+
+- Primary diagonal: matrix[i][i]
+
+- Secondary diagonal: matrix[i][n-1-i]
+
+- Optimized in O(n) time.
+
 ```java
-Primary diagonal: matrix[i][i]
-
-Secondary diagonal: matrix[i][n-1-i]
-
-Optimized in O(n) time.
-
 public static int DiagonalSum(int matrix[][]) {
     int sum = 0;
     for(int i = 0; i < matrix.length; i++) {
