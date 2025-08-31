@@ -13,154 +13,6 @@ So I can open this repo anytime and revise everything quickly 🚀.
 
 ---
 
-# ⚔️ Divide and Conquer
-
-## Utility Function - Print Array
-```java
-public static void PrintArr(int arr[]) {
-  for(int i = 0; i < arr.length; i++) {
-    System.out.print(arr[i] + " ");
-  }
-  System.out.println();
-}
-```
-
-## 1. Merge Sort Algorithm
-**Time Complexity**: O(n log n) | **Space Complexity**: O(n)  
-**Best for**: Stable sorting, guaranteed O(n log n) performance
-
-```java
-public static void MergeSort(int arr[], int si, int ei) {
-  // base case
-  if(si >= ei) {
-    return;
-  }
-  
-  // divide
-  int mid = si + (ei - si)/2;  // Prevents integer overflow
-  MergeSort(arr, si, mid);     // left part 
-  MergeSort(arr, mid+1, ei);   // right part
-  Merge(arr, si, mid, ei);     // merge both parts
-}
-
-public static void Merge(int arr[], int si, int mid, int ei) {
-  // Create temporary array: left(0,3)=4 right(4,6)=3 -> 6-0+1
-  int temp[] = new int[ei - si + 1];
-  int i = si;     // iterator for left part
-  int j = mid + 1; // iterator for right part
-  int k = 0;      // iterator for temp array
-  
-  // Compare and merge
-  while(i <= mid && j <= ei) {
-    if(arr[i] < arr[j]) {
-      temp[k] = arr[i];
-      i++;
-    } else {
-      temp[k] = arr[j];
-      j++;
-    }
-    k++;
-  }
-  
-  // Add remaining elements from left part
-  while(i <= mid) {
-    temp[k++] = arr[i++];
-  }
-  
-  // Add remaining elements from right part
-  while(j <= ei) {
-    temp[k++] = arr[j++];
-  }
-  
-  // Copy temp array back to original array
-  for(k = 0, i = si; k < temp.length; k++, i++) {
-    arr[i] = temp[k];
-  }
-}
-```
-
-## 2. Quick Sort Algorithm
-**Time Complexity**: O(n log n) average, O(n²) worst | **Space Complexity**: O(log n)  
-**Best for**: In-place sorting, average case performance
-
-```java
-public static void quickSort(int arr[], int si, int ei) {
-  if(si >= ei) {
-    return;
-  }
-  
-  // Partition and get pivot index
-  int pIdx = partition(arr, si, ei);
-  quickSort(arr, si, pIdx - 1);  // sort left part
-  quickSort(arr, pIdx + 1, ei);  // sort right part
-}
-
-public static int partition(int arr[], int si, int ei) {
-  int pivot = arr[ei];  // choose last element as pivot
-  int i = si - 1;       // index for smaller elements
-  
-  for(int j = si; j < ei; j++) {
-    if(arr[j] <= pivot) {
-      i++;
-      // swap arr[i] and arr[j]
-      int temp = arr[j];
-      arr[j] = arr[i];
-      arr[i] = temp;
-    }
-  }
-  
-  i++;
-  // Place pivot in correct position
-  int temp = pivot;
-  arr[ei] = arr[i];
-  arr[i] = temp;
-  return i;  // return pivot index
-}
-```
-
-## 3. Rotated Array Search
-**Time Complexity**: O(log n) | **Space Complexity**: O(log n)  
-**Problem**: Search element in a sorted rotated array
-
-```java
-public static int RotateSearch(int arr[], int tar, int si, int ei) {
-  // base case
-  if(si > ei) {
-    return -1;
-  }
-  
-  // find mid
-  int mid = si + (ei - si) / 2;
-  
-  // case: found target
-  if(arr[mid] == tar) {
-    return mid;
-  }
-  
-  // mid on L1 (left sorted part)
-  if(arr[si] <= arr[mid]) {
-    // case a: target in left sorted part
-    if(arr[si] <= tar && tar <= arr[mid]) {
-      return RotateSearch(arr, tar, si, mid - 1);
-    } else {
-      // case b: target in right part
-      return RotateSearch(arr, tar, mid + 1, ei);
-    }
-  }
-  // mid on L2 (right sorted part)
-  else {
-    // case c: target in right sorted part
-    if(arr[mid] <= tar && tar <= arr[ei]) {
-      return RotateSearch(arr, tar, mid + 1, ei);
-    } else {
-      // case d: target in left part
-      return RotateSearch(arr, tar, si, mid - 1);
-    }
-  }
-}
-```
-
----
 
 # 📚 Arrays
 
@@ -550,6 +402,154 @@ public static void PrintBinaryConsecutiveStrings(int n , int lastPlace, String s
   }
 }
 ```
+# ⚔️ Divide and Conquer
+
+## Utility Function - Print Array
+```java
+public static void PrintArr(int arr[]) {
+  for(int i = 0; i < arr.length; i++) {
+    System.out.print(arr[i] + " ");
+  }
+  System.out.println();
+}
+```
+
+## 1. Merge Sort Algorithm
+**Time Complexity**: O(n log n) | **Space Complexity**: O(n)  
+**Best for**: Stable sorting, guaranteed O(n log n) performance
+
+```java
+public static void MergeSort(int arr[], int si, int ei) {
+  // base case
+  if(si >= ei) {
+    return;
+  }
+  
+  // divide
+  int mid = si + (ei - si)/2;  // Prevents integer overflow
+  MergeSort(arr, si, mid);     // left part 
+  MergeSort(arr, mid+1, ei);   // right part
+  Merge(arr, si, mid, ei);     // merge both parts
+}
+
+public static void Merge(int arr[], int si, int mid, int ei) {
+  // Create temporary array: left(0,3)=4 right(4,6)=3 -> 6-0+1
+  int temp[] = new int[ei - si + 1];
+  int i = si;     // iterator for left part
+  int j = mid + 1; // iterator for right part
+  int k = 0;      // iterator for temp array
+  
+  // Compare and merge
+  while(i <= mid && j <= ei) {
+    if(arr[i] < arr[j]) {
+      temp[k] = arr[i];
+      i++;
+    } else {
+      temp[k] = arr[j];
+      j++;
+    }
+    k++;
+  }
+  
+  // Add remaining elements from left part
+  while(i <= mid) {
+    temp[k++] = arr[i++];
+  }
+  
+  // Add remaining elements from right part
+  while(j <= ei) {
+    temp[k++] = arr[j++];
+  }
+  
+  // Copy temp array back to original array
+  for(k = 0, i = si; k < temp.length; k++, i++) {
+    arr[i] = temp[k];
+  }
+}
+```
+
+## 2. Quick Sort Algorithm
+**Time Complexity**: O(n log n) average, O(n²) worst | **Space Complexity**: O(log n)  
+**Best for**: In-place sorting, average case performance
+
+```java
+public static void quickSort(int arr[], int si, int ei) {
+  if(si >= ei) {
+    return;
+  }
+  
+  // Partition and get pivot index
+  int pIdx = partition(arr, si, ei);
+  quickSort(arr, si, pIdx - 1);  // sort left part
+  quickSort(arr, pIdx + 1, ei);  // sort right part
+}
+
+public static int partition(int arr[], int si, int ei) {
+  int pivot = arr[ei];  // choose last element as pivot
+  int i = si - 1;       // index for smaller elements
+  
+  for(int j = si; j < ei; j++) {
+    if(arr[j] <= pivot) {
+      i++;
+      // swap arr[i] and arr[j]
+      int temp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = temp;
+    }
+  }
+  
+  i++;
+  // Place pivot in correct position
+  int temp = pivot;
+  arr[ei] = arr[i];
+  arr[i] = temp;
+  return i;  // return pivot index
+}
+```
+
+## 3. Rotated Array Search
+**Time Complexity**: O(log n) | **Space Complexity**: O(log n)  
+**Problem**: Search element in a sorted rotated array
+
+```java
+public static int RotateSearch(int arr[], int tar, int si, int ei) {
+  // base case
+  if(si > ei) {
+    return -1;
+  }
+  
+  // find mid
+  int mid = si + (ei - si) / 2;
+  
+  // case: found target
+  if(arr[mid] == tar) {
+    return mid;
+  }
+  
+  // mid on L1 (left sorted part)
+  if(arr[si] <= arr[mid]) {
+    // case a: target in left sorted part
+    if(arr[si] <= tar && tar <= arr[mid]) {
+      return RotateSearch(arr, tar, si, mid - 1);
+    } else {
+      // case b: target in right part
+      return RotateSearch(arr, tar, mid + 1, ei);
+    }
+  }
+  // mid on L2 (right sorted part)
+  else {
+    // case c: target in right sorted part
+    if(arr[mid] <= tar && tar <= arr[ei]) {
+      return RotateSearch(arr, tar, mid + 1, ei);
+    } else {
+      // case d: target in left part
+      return RotateSearch(arr, tar, si, mid - 1);
+    }
+  }
+}
+```
+
+---
 
 ---
 
