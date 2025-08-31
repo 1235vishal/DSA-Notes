@@ -6,7 +6,13 @@ So I can open this repo anytime and revise everything quickly 🚀.
 
 ## 🔹 Roadmap
 1. Arrays ✅
+2. Recursion ✅
+3. Sorting Algorithms ✅
+4. 2D Arrays ✅
 
+---
+
+# 📚 Arrays
 
 ## 1. Get Largest Element in Array
 
@@ -34,6 +40,7 @@ public static int getSmallest(int Numbers[]) {
   return smallest;
 }
 ```
+
 ## 3. Linear Search
 ```java
 public static int LinearSearch(int Numbers[], int key) {
@@ -45,6 +52,7 @@ public static int LinearSearch(int Numbers[], int key) {
   return -1;
 }
 ```
+
 ## 4. Binary Search (Array must be sorted)
 ```java
 public static int BinearySearch(int Numbers[], int key) {
@@ -64,6 +72,7 @@ public static int BinearySearch(int Numbers[], int key) {
   return -1;
 }
 ```
+
 ## 5. Reverse Array
 ```java
 public static void Reverse(int Numbers[]) {
@@ -77,6 +86,7 @@ public static void Reverse(int Numbers[]) {
   }
 }
 ```
+
 ## 6. Print All Pairs in Array
 ```java
 public static void PairsofNum(int Numbers[]) {
@@ -97,6 +107,7 @@ public static void PairsofNum(int Numbers[]) {
   */
 }
 ```
+
 ## 7. Print All Subarrays
 ```java
 public static void SubArrays(int Numbers[]) {
@@ -116,6 +127,7 @@ public static void SubArrays(int Numbers[]) {
    System.out.println("total pairs is : " + tp);
 }
 ```
+
 ## 8. Maximum Sum of Subarrays (Brute Force)
 ```java
 public static void MaxSumSubArrays(int Numbers[]) {
@@ -140,6 +152,7 @@ public static void MaxSumSubArrays(int Numbers[]) {
   System.out.println(" max sum is above sub Arrays pairs : " + MaxSum);
 }
 ```
+
 ## 9. Maximum Sum using Prefix Array
 ```java
 public static void PrefixSubArray(int Numbers[]) {
@@ -166,7 +179,8 @@ public static void PrefixSubArray(int Numbers[]) {
   System.out.println(" max sum is : " + MaxSum);
 }
 ```
-## 10. Maximum Sum using Kadane’s Algorithm
+
+## 10. Maximum Sum using Kadane's Algorithm
 ```java
 public static void KandansSum(int Numbers[]) {
   int currentSum = 0;
@@ -182,51 +196,222 @@ public static void KandansSum(int Numbers[]) {
 }
 ```
 
-## 11. Main Method to Test All Functions
+---
+
+# 🔄 Recursion
+
+## 1. Print Numbers in Decreasing Order (n to 1)
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
 ```java
-public static void main(String[] args) {
-  int Numbers[] = {2, 4, 6, 8, 10, 12, 14};
-  //below array only for Kadane's algorithm
-  // int Numbers[] = {-2, -## 3, 4, -1, -2, 1, 5, -## 3};
-
-  int key = 8;
-  System.out.println("our array Largest element is : " + getLargest(Numbers));
-  System.out.println("our array Smallest element is : " + getSmallest(Numbers));
-  int index = LinearSearch(Numbers, key);
-  if(index == -1) {
-    System.out.println("not found");
-  } else {
-    System.out.println("our array key index is  : " + index);
+public static void RecursionPrintDec(int n) {
+  if( n == 1 ) {
+    System.out.println(n);
+    return;
   }
-  System.out.println("our array key index using binary search is  : " + BinearySearch(Numbers, key));
-
-  Reverse(Numbers);
-  for(int i = 0; i < Numbers.length; i++) {
-    System.out.print(Numbers[i] + " ");
-  }
-  System.out.println();
-
-  PairsofNum(Numbers);
-  SubArrays(Numbers);
-  MaxSumSubArrays(Numbers);
-  PrefixSubArray(Numbers);
-  KandansSum(Numbers);
+  System.out.print(n + " ");
+  RecursionPrintDec(n - 1);
 }
 ```
+
+## 2. Print Numbers in Increasing Order (1 to n)
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static void RecursionPrintIncre(int n) {
+  if(  n == 1 ) {
+    System.out.println(n);
+    return;
+  } 
+  RecursionPrintIncre(n - 1);
+  System.out.print(n + " ");
+}
+```
+
+## 3. Factorial of n (n!)
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static int factorial(int n) {
+  if( n == 0) {
+    return 1;
+  }
+  int fnm1 = factorial(n - 1);
+  int fn = n * fnm1;  // Fixed: was calling factorial(n-1) twice
+  return fn;
+}
+```
+
+## 4. Sum of First n Natural Numbers
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static int calSum(int n) {
+  if( n == 1) {
+    return 1;
+  }
+  int Snm1 = calSum(n-1);
+  int Sn =  n + Snm1;
+  return Sn;
+}
+```
+
+## 5. Fibonacci Number (nth term)
+**Time Complexity**: O(2^n) | **Space Complexity**: O(n)
+```java
+public static int fib(int n) {
+  if( n == 0 || n == 1) {
+    return n;
+  }
+  int Fnm1 = fib(n - 1);
+  int Fnm2 = fib(n - 2);
+  int Fn = Fnm1 + Fnm2;
+  return Fn;
+}
+```
+
+## 6. Check if Array is Sorted
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static boolean isSorted(int arr[], int i) {
+  if( i == arr.length - 1) {
+    return true;
+  }
+  if(arr[i] > arr[i + 1]) {
+    return false;
+  }
+  return isSorted(arr, i+1);
+}
+```
+
+## 7. First Occurrence of Element in Array
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static int firstOccurance(int arr[], int key, int i) {
+  if(i == arr.length) {
+    return -1;
+  }
+  if(arr[i] == key) {
+    return i;
+  }
+  return firstOccurance(arr, key, i+1);
+}
+```
+
+## 8. Last Occurrence of Element in Array
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static int lastOccurance(int arr[], int key, int i) {
+  if(i == arr.length) {
+    return -1;
+  }
+  int isfound = lastOccurance(arr, key, i + 1);
+  if(isfound == -1 && arr[i] == key) {
+    return i;
+  }
+  return isfound;
+}
+```
+
+## 9. Power of Number (x^n) - Basic
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static int FindPower(int x , int n) {
+  if( n == 0) {  // Fixed: should be n == 0, not n == 1
+    return 1;
+  }
+  return x * FindPower(x, n-1);  // Fixed: simplified logic
+}
+```
+
+## 10. Optimized Power (a^n) - Divide & Conquer
+**Time Complexity**: O(log n) | **Space Complexity**: O(log n)
+```java
+public static int optimizedPower(int a , int n) {
+  if( n == 0) {
+    return 1;
+  }
+  int half = optimizedPower(a, n/2);
+  int halfPowerSq = half * half;
+  if( n % 2 != 0) {
+    halfPowerSq = a * halfPowerSq;
+  }
+  return halfPowerSq;
+}
+```
+
+## 11. Tiling Problem (2×n floor with 2×1 tiles)
+**Formula**: f(n) = f(n-1) + f(n-2)  
+**Time Complexity**: O(2^n) | **Space Complexity**: O(n)
+```java
+public static int tilingProblem(int n) {
+  if(n == 0 || n == 1) {
+    return 1;
+  }
+  int fnm1 = tilingProblem(n-1);
+  int fnm2 = tilingProblem(n-2);
+  int totalway = fnm1 + fnm2;
+  return totalway;
+}
+```
+
+## 12. Remove Duplicates from String
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static void RemoveDublicates(String str, int idx, StringBuilder newStr, boolean map[]) {
+  if(idx == str.length()) {
+    System.out.println(newStr);
+    return;
+  }
+  char currChar = str.charAt(idx);
+  if(map[currChar-'a'] == true) {
+    RemoveDublicates(str, idx+1, newStr, map);
+  }
+  else {
+    map[currChar-'a'] = true;
+    RemoveDublicates(str, idx+1, newStr.append(currChar), map);
+  }
+}
+```
+
+## 13. Friends Pairing Problem
+**Formula**: f(n) = f(n-1) + (n-1)*f(n-2)  
+**Time Complexity**: O(2^n) | **Space Complexity**: O(n)
+```java
+public static int friendsPairing(int n) {
+  if(n == 1 || n ==2) {
+    return n;
+  }
+  int fnm1 = friendsPairing(n-1);
+  int fnm2 = friendsPairing(n-2);
+  int pairsWays = (n-1) * fnm2;
+  int totalWays = fnm1 + pairsWays;
+  return totalWays;
+}
+```
+
+## 14. Binary Strings without Consecutive 1s
+**Time Complexity**: O(2^n) | **Space Complexity**: O(n)
+```java
+public static void PrintBinaryConsecutiveStrings(int n , int lastPlace, String str){
+  if(n == 0) {
+    System.out.println(str);
+    return;
+  }
+  PrintBinaryConsecutiveStrings(n-1, 0, str+"0");
+  if(lastPlace == 0) {
+    PrintBinaryConsecutiveStrings(n-1, 1, str+"1");
+  }
+}
+```
+
+---
 
 # 📘 Sorting Algorithms in Java
 
 Here are some commonly used sorting algorithms with implementations in **Java**.
 
----
-
 ## 🔹 1. Bubble Sort
+Repeatedly compares adjacent elements and swaps if needed.  
+**Time Complexity**: O(n²) | **Best Case**: O(n) (already sorted)
+
 ```java
-- Repeatedly compares adjacent elements and swaps if needed.  
-- Time Complexity: O(n²)  
-- Best Case: O(n) (already sorted)  
-
-
 public static void BubbleSorting(int arr[]) {
    for(int turn = 0; turn < arr.length-1; turn++) {
        for(int j = 0; j < arr.length-1-turn; j++) {
@@ -239,14 +424,12 @@ public static void BubbleSorting(int arr[]) {
    }
 }
 ```
+
 ## 2. Selection Sort
+Finds the minimum element and puts it at the beginning.  
+**Time Complexity**: O(n²) | **Not Stable**
+
 ```java
-Finds the minimum element and puts it at the beginning.
-
-Time Complexity: O(n²)
-
-Not Stable
-
 public static void SelectionSorting(int arr[]) {
     for(int i = 0; i < arr.length - 1; i++) {
         int minPos = i;
@@ -261,14 +444,12 @@ public static void SelectionSorting(int arr[]) {
     }
 }
 ```
-##  3. Insertion Sort
+
+## 3. Insertion Sort
+Inserts each element in the correct position.  
+**Time Complexity**: O(n²) | **Best Case**: O(n) (already sorted)
+
 ```java
-Inserts each element in the correct position.
-
-Time Complexity: O(n²)
-
-Best Case: O(n) (already sorted)
-
 public static void InsertionSorting(int arr[]) {
     for(int i = 1; i < arr.length; i++) {
         int curr = arr[i];
@@ -281,14 +462,12 @@ public static void InsertionSorting(int arr[]) {
     }
 }
 ```
-##  4. Counting Sort
+
+## 4. Counting Sort
+Works well when range of input numbers is small.  
+**Time Complexity**: O(n + k) | **Not Comparison Based**
+
 ```java
-Works well when range of input numbers is small.
-
-Time Complexity: O(n + k)
-
-Not Comparison Based
-
 public static void CountingSorting(int arr[]) {
     int largest = Integer.MIN_VALUE;
     for(int i = 0; i < arr.length; i++) {
@@ -310,12 +489,11 @@ public static void CountingSorting(int arr[]) {
     }
 }
 ```
-##  5. Built-in Sorting in Java {MOST IMPORT SHORTCUT METHODE ARRAYS SORTING}
+
+## 5. Built-in Sorting in Java {MOST IMPORTANT SHORTCUT METHOD}
+**Best for Interviews** → Always use Arrays.sort()
+
 ```java
-Best for Interviews → Always use Arrays.sort()
-
-Example:
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -323,32 +501,16 @@ Arrays.sort(arr);                       // ascending
 Arrays.sort(arr, 0, 3);                 // range-based sorting
 Arrays.sort(arr, Collections.reverseOrder());  // descending (only with Integer[])
 ```
-##  ️ Note: Collections.reverseOrder() works only with Integer[], not int[].
-```java
-🏁 Main Method Example
 
-public static void main(String[] args) {
-   int arr[] = {4, 5, 1, 2, 3};
-
-   // BubbleSorting(arr);
-   // SelectionSorting(arr);
-   // InsertionSorting(arr);
-   CountingSorting(arr);
-
-   for(int i = 0; i < arr.length; i++) {
-       System.out.print(arr[i] + " ");
-   }
-   System.out.println();
-}
-```
-
-# 📘 2D Arrays in Java
+**⚠️ Note**: Collections.reverseOrder() works only with Integer[], not int[].
 
 ---
 
+# 📘 2D Arrays in Java
+
 ## 🔹 Searching in 2D Array
-- Traverse through each element and compare with the key.  
-- **Time Complexity**: O(n × m)  
+Traverse through each element and compare with the key.  
+**Time Complexity**: O(n × m)
 
 ```java
 public static boolean Search(int matrix[][], int key) {
@@ -364,11 +526,10 @@ public static boolean Search(int matrix[][], int key) {
     return false;
 }
 ```
+
 ## Spiral Matrix Traversal
-
-- Print elements in spiral order (top → right → bottom → left).
-
-- Use 4 pointers: startRow, endRow, startCol, endCol.
+Print elements in spiral order (top → right → bottom → left).  
+Use 4 pointers: startRow, endRow, startCol, endCol.
 
 ```java
 public static void PrintSpiral(int matrix[][]) {
@@ -405,13 +566,11 @@ public static void PrintSpiral(int matrix[][]) {
     System.out.println();
 }
 ```
-##  Diagonal Sum of Matrix
 
-- Primary diagonal: matrix[i][i]
-
-- Secondary diagonal: matrix[i][n-1-i]
-
-- Optimized in O(n) time.
+## Diagonal Sum of Matrix
+Primary diagonal: matrix[i][i]  
+Secondary diagonal: matrix[i][n-1-i]  
+Optimized in O(n) time.
 
 ```java
 public static int DiagonalSum(int matrix[][]) {
@@ -428,7 +587,46 @@ public static int DiagonalSum(int matrix[][]) {
     return sum;
 }
 ```
-## 🏁 Main Method Example
+
+---
+
+## 🏁 Example Usage
+
+### Arrays Example
+```java
+public static void main(String[] args) {
+  int Numbers[] = {2, 4, 6, 8, 10, 12, 14};
+  // For Kadane's algorithm use: {-2, -3, 4, -1, -2, 1, 5, -3}
+
+  int key = 8;
+  System.out.println("Largest element: " + getLargest(Numbers));
+  System.out.println("Smallest element: " + getSmallest(Numbers));
+  System.out.println("Linear search result: " + LinearSearch(Numbers, key));
+  System.out.println("Binary search result: " + BinearySearch(Numbers, key));
+}
+```
+
+### Recursion Example
+```java
+public static void main(String[] args) {
+  // Test recursion functions
+  RecursionPrintDec(5);           // 5 4 3 2 1
+  RecursionPrintIncre(5);         // 1 2 3 4 5
+  System.out.println(factorial(5));      // 120
+  System.out.println(calSum(5));          // 15
+  System.out.println(fib(6));             // 8
+  
+  int arr[] = {1, 2, 3, 4, 5};
+  System.out.println(isSorted(arr, 0));   // true
+  
+  String str = "appnnacollege";
+  RemoveDublicates(str, 0, new StringBuilder(""), new boolean[26]);
+  
+  PrintBinaryConsecutiveStrings(3, 0, "");  // All 3-bit binary strings without consecutive 1s
+}
+```
+
+### 2D Arrays Example
 ```java
 public static void main(String[] args) {
     int matrix[][] = {
@@ -438,8 +636,8 @@ public static void main(String[] args) {
         {13, 14, 15, 16}
     };
 
-    // Search(matrix, 7);
-    // PrintSpiral(matrix);
+    Search(matrix, 7);
+    PrintSpiral(matrix);
     System.out.println("Diagonal Sum = " + DiagonalSum(matrix));
 }
 ```
