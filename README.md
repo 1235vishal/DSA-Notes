@@ -804,3 +804,446 @@ public static void main(String[] args) {
   System.out.println("Target " + target + " found at index: " + tarIdx); // Output: 4
 }
 ```
+# 🧵 Strings in Java
+
+## 📋 Important String Concepts
+
+### String Properties
+- Strings are **IMMUTABLE** in Java
+- String literals are stored in **String Pool**
+- Use `StringBuilder` for multiple concatenations
+- Use `.equals()` for content comparison, not `==`
+
+---
+
+## 🔹 Basic String Operations
+
+### 1. String Input Methods
+```java
+Scanner sc = new Scanner(System.in);
+String word = sc.next();        // takes only single word
+String sentence = sc.nextLine(); // takes complete line with spaces
+```
+
+### 2. String Length
+```java
+String name = "vishal singh rajput";
+System.out.println(name.length()); // Output: 19
+```
+
+### 3. String Concatenation
+```java
+String firstName = "vishal";
+String lastName = "rajput";
+String fullName = firstName + " " + lastName;
+// Output: "vishal rajput"
+```
+
+### 4. Character Access
+```java
+String fullName = "vishal rajput";
+System.out.println(fullName.charAt(5)); // Output: 'l'
+```
+
+---
+
+## 🔍 String Comparison
+
+### String Equality Check
+```java
+String s1 = "vishal";
+String s2 = "vishal";           // String literal (same reference)
+String s3 = new String("vishal"); // New object (different reference)
+
+// ❌ Wrong way (compares references)
+if(s1 == s2) {
+    System.out.println("both are equal"); // This will print
+}
+
+if(s1 == s3) {
+    System.out.println("both are equal"); // This WON'T print
+}
+
+// ✅ Correct way (compares content)
+if(s1.equals(s3)) {
+    System.out.println("both are equal"); // This will print
+}
+```
+
+### Lexicographic Comparison
+```java
+String fruits[] = {"apple", "mango", "banana"};
+String largest = fruits[0];
+
+for(int i = 0; i < fruits.length; i++) {
+    if(largest.compareTo(fruits[i]) < 0) {
+        largest = fruits[i];
+    }
+}
+System.out.println(largest); // Output: "mango"
+
+/*
+compareTo() returns:
+- 0: strings are equal
+- positive: first string > second string
+- negative: first string < second string
+*/
+```
+
+---
+
+## 🛠️ Essential String Problems
+
+### 1. Print Each Character with Space
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static void PrintString(String fullName) {
+    for(int i = 0; i < fullName.length(); i++) {
+        System.out.print(fullName.charAt(i) + " ");
+    }
+    System.out.println();
+}
+// Input: "Hello" → Output: "H e l l o "
+```
+
+### 2. Check Palindrome
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static boolean isPalindrome(String strP) {
+    for(int i = 0; i < strP.length(); i++) {
+        int n = strP.length();
+        if(strP.charAt(i) != strP.charAt(n - i - 1)) {
+            return false;
+        }
+    }
+    return true;
+}
+// Examples: "racecar" → true, "hello" → false
+```
+
+### 3. Shortest Path Problem
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static float getShortestPath(String path) {
+    int x = 0, y = 0;
+    for(int i = 0; i < path.length(); i++) {
+        char dir = path.charAt(i);
+        if(dir == 'S') {
+            y--;
+        } else if(dir == 'N') {
+            y++;
+        } else if(dir == 'W') {
+            x--;
+        } else { // 'E'
+            x++;
+        }
+    }
+    int X2 = x * x;
+    int Y2 = y * y;
+    return (float)Math.sqrt(X2 + Y2);
+}
+// Input: "WNEENESENNN" → Output: shortest distance from origin
+```
+
+### 4. Extract Substring (Manual Implementation)
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static String subStringn(String S, int si, int ei) {
+    String substr = "";
+    for(int i = si; i < ei; i++) {
+        substr += S.charAt(i);
+    }
+    return substr;
+}
+
+// Built-in method (preferred):
+// String S = "Hello World";
+// System.out.println(S.substring(0, 5)); // Output: "Hello"
+```
+
+### 5. Title Case Conversion
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static String toUpperCase(String Str) {
+    StringBuilder sb = new StringBuilder("");
+    
+    char ch = Character.toUpperCase(Str.charAt(0));
+    sb.append(ch);
+    
+    for(int i = 1; i < Str.length(); i++) {
+        if(Str.charAt(i) == ' ' && i < Str.length() - 1) {
+            sb.append(Str.charAt(i));
+            i++;
+            sb.append(Character.toUpperCase(Str.charAt(i)));
+        } else {
+            sb.append(Str.charAt(i));
+        }
+    }
+    return sb.toString();
+}
+// Input: "hi, i am vishal" → Output: "Hi, I Am Vishal"
+```
+
+### 6. String Compression
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static String compress(String Cstr) {
+    String newStr = "";
+    for(int i = 0; i < Cstr.length(); i++) {
+        Integer count = 1;
+        while(i < Cstr.length() - 1 && Cstr.charAt(i) == Cstr.charAt(i + 1)) {
+            count++;
+            i++;
+        }
+        newStr += Cstr.charAt(i);
+        if(count > 1) {
+            newStr += count.toString();
+        }
+    }
+    return newStr;
+}
+// Input: "aaabbcccdd" → Output: "a3b2c3d2"
+```
+
+---
+```
+## 🏗️ StringBuilder (For Multiple Operations)
+
+### Why StringBuilder?
+- String concatenation creates new objects every time (inefficient)
+- StringBuilder is mutable and faster for multiple operations
+
+```java
+// ❌ Inefficient (creates multiple String objects)
+String result = "";
+for(int i = 0; i < 1000; i++) {
+    result += i; // Creates new String object each time
+}
+
+// ✅ Efficient (modifies same StringBuilder object)
+StringBuilder sb = new StringBuilder();
+for(int i = 0; i < 1000; i++) {
+    sb.append(i); // Modifies existing object
+}
+String result = sb.toString();
+```
+
+### StringBuilder Operations
+```java
+StringBuilder sb = new StringBuilder("");
+
+// Add characters a to z
+for(char ch = 'a'; ch <= 'z'; ch++) {
+    sb.append(ch); // append = add at the end
+}
+System.out.println(sb); // Output: "abcdefghijklmnopqrstuvwxyz"
+
+// Other useful methods:
+sb.insert(0, "START");     // Insert at beginning
+sb.delete(0, 5);           // Delete characters from index 0 to 4
+sb.reverse();              // Reverse the string
+sb.setCharAt(0, 'Z');      // Set character at specific index
+```
+
+---
+
+## 🎯 Advanced String Problems
+
+### 1. Remove Duplicates (Using Boolean Array)
+**Time Complexity**: O(n) | **Space Complexity**: O(1) - constant size array
+```java
+public static String removeDuplicates(String str) {
+    boolean[] seen = new boolean[26]; // for lowercase a-z
+    StringBuilder result = new StringBuilder();
+    
+    for(int i = 0; i < str.length(); i++) {
+        char ch = str.charAt(i);
+        int index = ch - 'a'; // Convert to array index
+        
+        if(!seen[index]) {
+            seen[index] = true;
+            result.append(ch);
+        }
+    }
+    return result.toString();
+}
+// Input: "programming" → Output: "progamin"
+```
+
+### 2. Count Vowels and Consonants
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static void countVowelsConsonants(String str) {
+    int vowels = 0, consonants = 0;
+    str = str.toLowerCase();
+    
+    for(int i = 0; i < str.length(); i++) {
+        char ch = str.charAt(i);
+        if(ch >= 'a' && ch <= 'z') {
+            if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                vowels++;
+            } else {
+                consonants++;
+            }
+        }
+    }
+    System.out.println("Vowels: " + vowels + ", Consonants: " + consonants);
+}
+```
+
+### 3. Reverse Words in String
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+```java
+public static String reverseWords(String str) {
+    String[] words = str.split(" ");
+    StringBuilder result = new StringBuilder();
+    
+    for(int i = words.length - 1; i >= 0; i--) {
+        result.append(words[i]);
+        if(i > 0) result.append(" ");
+    }
+    return result.toString();
+}
+// Input: "Hello World Java" → Output: "Java World Hello"
+```
+
+### 4. Check Anagram
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+```java
+public static boolean isAnagram(String str1, String str2) {
+    if(str1.length() != str2.length()) {
+        return false;
+    }
+    
+    int[] charCount = new int[26];
+    
+    // Count characters in first string
+    for(int i = 0; i < str1.length(); i++) {
+        charCount[str1.charAt(i) - 'a']++;
+    }
+    
+    // Subtract characters from second string
+    for(int i = 0; i < str2.length(); i++) {
+        charCount[str2.charAt(i) - 'a']--;
+    }
+    
+    // Check if all counts are zero
+    for(int count : charCount) {
+        if(count != 0) return false;
+    }
+    
+    return true;
+}
+// Input: "listen", "silent" → Output: true
+```
+
+---
+
+## 🧮 String to Number Conversions
+
+```java
+// String to Integer
+String numStr = "123";
+int num = Integer.parseInt(numStr);
+
+// Integer to String
+int number = 123;
+String str = Integer.toString(number);
+// or
+String str2 = String.valueOf(number);
+
+// String to Character Array
+String text = "hello";
+char[] charArray = text.toCharArray();
+
+// Character Array to String
+char[] chars = {'h', 'e', 'l', 'l', 'o'};
+String text2 = new String(chars);
+```
+
+---
+
+## 📊 Important String Methods Cheat Sheet
+
+```java
+String str = "Hello World";
+
+str.length()              // 11
+str.charAt(0)             // 'H'
+str.indexOf('o')          // 4 (first occurrence)
+str.lastIndexOf('o')      // 7 (last occurrence)
+str.substring(0, 5)       // "Hello"
+str.toLowerCase()         // "hello world"
+str.toUpperCase()         // "HELLO WORLD"
+str.trim()                // removes leading/trailing spaces
+str.replace('l', 'x')     // "Hexxo Worxd"
+str.contains("World")     // true
+str.startsWith("Hello")   // true
+str.endsWith("World")     // true
+str.split(" ")            // ["Hello", "World"]
+str.isEmpty()             // false
+```
+
+---
+
+## 🎯 Practice Problems
+
+### Easy
+1. Count frequency of each character
+2. Check if string contains only digits
+3. Reverse a string using recursion
+4. Find first non-repeating character
+
+### Medium
+5. Longest common prefix
+6. Valid parentheses checker
+7. String compression and decompression
+8. Minimum window substring
+
+### Hard
+9. Edit distance between strings
+10. Regular expression matching
+
+---
+
+## 🚀 Pro Tips for String Problems
+
+1. **Always consider edge cases**: empty string, single character, null
+2. **Use StringBuilder** for multiple concatenations
+3. **Character to index mapping**: `ch - 'a'` for lowercase letters
+4. **Two-pointer technique** works great for palindromes and reversals
+5. **Hash maps/arrays** are useful for frequency counting
+6. **Remember ASCII values**: 'a' = 97, 'A' = 65, '0' = 48
+7. **String pool behavior**: Use `.equals()` not `==` for comparison
+
+---
+
+## 📝 Example Usage
+
+```java
+public static void main(String[] args) {
+    // Test basic operations
+    String name = "vishal rajput";
+    PrintString(name);
+    
+    // Test palindrome
+    System.out.println(isPalindrome("racecar")); // true
+    System.out.println(isPalindrome("hello"));   // false
+    
+    // Test compression
+    System.out.println(compress("aaabbcccdd")); // "a3b2c3d2"
+    
+    // Test title case
+    System.out.println(toUpperCase("hi, i am vishal")); // "Hi, I Am Vishal"
+    
+    // Test shortest path
+    System.out.println(getShortestPath("WNEENESENNN")); // distance
+    
+    // StringBuilder example
+    StringBuilder sb = new StringBuilder();
+    for(char ch = 'a'; ch <= 'z'; ch++) {
+        sb.append(ch);
+    }
+    System.out.println(sb.toString()); // "abcdefghijklmnopqrstuvwxyz"
+}
+```
