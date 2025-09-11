@@ -1005,8 +1005,6 @@ public static String compress(String Cstr) {
 // Input: "aaabbcccdd" → Output: "a3b2c3d2"
 ```
 
----
-```
 ## 🏗️ StringBuilder (For Multiple Operations)
 
 ### Why StringBuilder?
