@@ -1247,3 +1247,539 @@ public static void main(String[] args) {
     System.out.println(sb.toString()); // "abcdefghijklmnopqrstuvwxyz"
 }
 ```
+# 🔄 Backtracking
+
+## 📋 What is Backtracking?
+
+**Backtracking** is an algorithmic approach that incrementally builds solutions and abandons candidates ("backtracks") as soon as it determines that they cannot possibly lead to a valid solution.
+
+### Core Concept:
+1. **Choose**: Make a choice from available options
+2. **Explore**: Recursively explore the consequences  
+3. **Unchoose (Backtrack)**: Undo the choice and try next option
+
+### Template Structure:
+```java
+public static void backtrack(parameters) {
+    // Base case
+    if (base_condition) {
+        // Process/Print solution
+        return;
+    }
+    
+    // Try all possible choices
+    for (choice in all_choices) {
+        make_choice();           // Choose
+        backtrack(parameters);   // Explore  
+        unmake_choice();         // Unchoose (Backtrack)
+    }
+}
+```
+
+---
+
+## 🔍 Essential Backtracking Problems
+
+### 1. Array Modification with Backtracking
+**Concept**: Modify array, explore possibilities, then backtrack  
+**Time Complexity**: O(2^n) | **Space Complexity**: O(n)
+
+```java
+public static void changeArr(int arr[], int i, int val) {
+    // Base case
+    if(i == arr.length) {
+        printArr(arr);
+        return;
+    }
+    
+    // Make choice
+    arr[i] = val;
+    changeArr(arr, i+1, val+1); // Explore (Recursion)
+    
+    // Backtrack - undo the choice
+    arr[i] = arr[i] - 2; // This modifies original choice
+}
+
+public static void printArr(int arr[]) {
+    for(int i = 0; i < arr.length; i++) {
+        System.out.print(arr[i] + " ");
+    }
+    System.out.println();
+}
+```
+
+### 2. Find All Subsets of String
+**Problem**: Generate all possible subsets of string "abc"  
+**Output**: "", "a", "b", "c", "ab", "ac", "bc", "abc"  
+**Time Complexity**: O(n × 2^n) | **Space Complexity**: O(n)
+
+```java
+public static void findSubset(String str, String ans, int i) {
+    // Base case
+    if(i == str.length()) {
+        if(ans.length() == 0) {
+            System.out.println("null");
+        } else {
+            System.out.println(ans);
+        }
+        return;
+    }
+    
+    // Choice 1: Include current character
+    findSubset(str, ans + str.charAt(i), i+1);
+    
+    // Choice 2: Exclude current character  
+    findSubset(str, ans, i+1);
+}
+```
+
+**How it works**:
+- At each character, we have 2 choices: include or exclude
+- Total subsets = 2^n (where n = string length)
+
+### 3. Find All Permutations of String
+**Problem**: Generate all arrangements of string "abc"  
+**Output**: "abc", "acb", "bac", "bca", "cab", "cba"  
+**Time Complexity**: O(n! × n) | **Space Complexity**: O(n)
+
+```java
+public static void findPermutations(String str, String ans) {
+    // Base case
+    if(str.length() == 0) {
+        System.out.println(ans);
+        return;
+    }
+    
+    // Try each character as next choice
+    for(int i = 0; i < str.length(); i++) {
+        char curr = str.charAt(i);
+        
+        // Remove current character from string
+        // "abcde" → remove 'c' → "ab" + "de" = "abde"
+        String newStr = str.substring(0, i) + str.substring(i+1);
+        
+        findPermutations(newStr, ans + curr);
+    }
+}
+```
+
+---
+
+## 👑 N-Queens Problem (Classic Backtracking)
+
+**Problem**: Place N queens on N×N chessboard such that no two queens attack each other.
+
+### Solution Approach:
+1. Place queens one by one in different columns
+2. Check if placement is safe (no conflicts)
+3. If safe, recursively place next queen
+4. If no solution found, backtrack
+
+```java
+public static void nQueens(char board[][], int row) {
+    // Base case - all queens placed
+    if(row == board.length) {
+        printBoard(board);
+        count++;
+        return;
+    }
+    
+    // Try placing queen in each column of current row
+    for(int j = 0; j < board.length; j++) {
+        if(isSafe(board, row, j)) {
+            board[row][j] = 'Q';        // Choose
+            nQueens(board, row + 1);     // Explore
+            board[row][j] = 'X';        // Backtrack
+        }
+    }
+}
+
+public static boolean isSafe(char board[][], int row, int col) {
+    // Check vertical up
+    for(int i = row - 1; i >= 0; i--) {
+        if(board[i][col] == 'Q') {
+            return false;
+        }
+    }
+    
+    // Check diagonal left up
+    for(int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+        if(board[i][j] == 'Q') {
+            return false;
+        }
+    }
+    
+    // Check diagonal right up  
+    for(int i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) {
+        if(board[i][j] == 'Q') {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+public static void printBoard(char board[][]) {
+    System.out.println("--------- Chess Board ---------");
+    for(int i = 0; i < board.length; i++) {
+        for(int j = 0; j < board.length; j++) {
+            System.out.print(board[i][j] + " ");
+        }
+        System.out.println();
+    }
+}
+```
+
+### N-Queens - Count Solutions Only
+```java
+public static int nQueensCount(char board[][], int row) {
+    // Base case
+    if(row == board.length) {
+        return 1;
+    }
+    
+    int count = 0;
+    for(int j = 0; j < board.length; j++) {
+        if(isSafe(board, row, j)) {
+            board[row][j] = 'Q';
+            count += nQueensCount(board, row + 1);
+            board[row][j] = 'X';
+        }
+    }
+    return count;
+}
+```
+
+### N-Queens - Print One Solution Only
+```java
+public static boolean nQueensOne(char board[][], int row) {
+    // Base case
+    if(row == board.length) {
+        printBoard(board);
+        return true;
+    }
+    
+    for(int j = 0; j < board.length; j++) {
+        if(isSafe(board, row, j)) {
+            board[row][j] = 'Q';
+            if(nQueensOne(board, row + 1)) {
+                return true; // Solution found
+            }
+            board[row][j] = 'X'; // Backtrack
+        }
+    }
+    return false; // No solution found
+}
+```
+
+---
+
+## 🏰 Grid Path Problems
+
+### 4. Grid Ways (Reach Bottom-Right Corner)
+**Problem**: Count ways to reach from (0,0) to (n-1,m-1) moving only right or down  
+**Time Complexity**: O(2^(n+m)) | **Space Complexity**: O(n+m)
+
+```java
+public static int gridWays(int i, int j, int n, int m) {
+    // Base case - reached destination
+    if(i == n-1 && j == m-1) {
+        return 1;
+    }
+    // Base case - out of bounds
+    if(i == n || j == m) {
+        return 0;
+    }
+    
+    // Move right + Move down
+    int w1 = gridWays(i+1, j, n, m);
+    int w2 = gridWays(i, j+1, n, m);
+    return w1 + w2;
+}
+
+// Optimized using Math Formula: (n+m-2)C(n-1)
+public static int gridWaysOptimized(int n, int m) {
+    // Total steps = (n-1) down + (m-1) right = n+m-2
+    // Choose (n-1) positions for down moves = C(n+m-2, n-1)
+    return factorial(n+m-2) / (factorial(n-1) * factorial(m-1));
+}
+```
+
+---
+
+## 🧩 Advanced Backtracking Problems
+
+### 5. Sudoku Solver
+**Problem**: Fill 9×9 grid following Sudoku rules  
+**Time Complexity**: O(9^(n×n)) | **Space Complexity**: O(n×n)
+
+```java
+public static boolean solveSudoku(int sudoku[][], int row, int col) {
+    // Base case
+    if(row == 9) {
+        return true;
+    }
+    
+    // Move to next row
+    int nextRow = row, nextCol = col + 1;
+    if(col + 1 == 9) {
+        nextRow = row + 1;
+        nextCol = 0;
+    }
+    
+    // If cell already filled, move to next
+    if(sudoku[row][col] != 0) {
+        return solveSudoku(sudoku, nextRow, nextCol);
+    }
+    
+    // Try digits 1-9
+    for(int digit = 1; digit <= 9; digit++) {
+        if(isSudokuSafe(sudoku, row, col, digit)) {
+            sudoku[row][col] = digit;
+            if(solveSudoku(sudoku, nextRow, nextCol)) {
+                return true; // Solution found
+            }
+            sudoku[row][col] = 0; // Backtrack
+        }
+    }
+    return false;
+}
+
+public static boolean isSudokuSafe(int sudoku[][], int row, int col, int digit) {
+    // Check row
+    for(int i = 0; i <= 8; i++) {
+        if(sudoku[i][col] == digit) {
+            return false;
+        }
+    }
+    
+    // Check column
+    for(int j = 0; j <= 8; j++) {
+        if(sudoku[row][j] == digit) {
+            return false;
+        }
+    }
+    
+    // Check 3x3 grid
+    int sr = (row/3) * 3;
+    int sc = (col/3) * 3;
+    for(int i = sr; i < sr+3; i++) {
+        for(int j = sc; j < sc+3; j++) {
+            if(sudoku[i][j] == digit) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+```
+
+### 6. Rat in Maze
+**Problem**: Find path from (0,0) to (n-1,n-1) in maze with obstacles  
+**Time Complexity**: O(2^(n×n)) | **Space Complexity**: O(n×n)
+
+```java
+public static void solveMaze(int maze[][]) {
+    int n = maze.length;
+    int sol[][] = new int[n][n];
+    
+    if(solveMazeUtil(maze, 0, 0, sol) == false) {
+        System.out.println("Solution doesn't exist");
+        return;
+    }
+    printSolution(sol);
+}
+
+public static boolean solveMazeUtil(int maze[][], int x, int y, int sol[][]) {
+    int n = maze.length;
+    
+    // Base case - reached destination
+    if(x == n-1 && y == n-1 && maze[x][y] == 1) {
+        sol[x][y] = 1;
+        return true;
+    }
+    
+    // Check if current cell is valid
+    if(isMazeSafe(maze, x, y) == true) {
+        // Mark current cell as part of solution
+        sol[x][y] = 1;
+        
+        // Move right
+        if(solveMazeUtil(maze, x+1, y, sol)) {
+            return true;
+        }
+        
+        // Move down  
+        if(solveMazeUtil(maze, x, y+1, sol)) {
+            return true;
+        }
+        
+        // Backtrack
+        sol[x][y] = 0;
+        return false;
+    }
+    return false;
+}
+
+public static boolean isMazeSafe(int maze[][], int x, int y) {
+    int n = maze.length;
+    return (x >= 0 && x < n && y >= 0 && y < n && maze[x][y] == 1);
+}
+```
+
+---
+
+## 🎯 Key Backtracking Patterns
+
+### Pattern 1: Generate All Combinations
+```java
+public static void findCombinations(int[] arr, List<Integer> current, int start) {
+    // Add current combination
+    System.out.println(current);
+    
+    for(int i = start; i < arr.length; i++) {
+        current.add(arr[i]);              // Choose
+        findCombinations(arr, current, i+1); // Explore
+        current.remove(current.size()-1);  // Backtrack
+    }
+}
+```
+
+### Pattern 2: Generate All Permutations
+```java
+public static void findPermutations(int[] arr, List<Integer> current, boolean[] used) {
+    if(current.size() == arr.length) {
+        System.out.println(current);
+        return;
+    }
+    
+    for(int i = 0; i < arr.length; i++) {
+        if(!used[i]) {
+            used[i] = true;                    // Choose
+            current.add(arr[i]);
+            findPermutations(arr, current, used); // Explore
+            current.remove(current.size()-1);  // Backtrack
+            used[i] = false;
+        }
+    }
+}
+```
+
+### Pattern 3: Path Finding
+```java
+public static boolean findPath(int[][] grid, int x, int y, int destX, int destY) {
+    // Base cases
+    if(x == destX && y == destY) return true;
+    if(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || grid[x][y] == 1) {
+        return false;
+    }
+    
+    grid[x][y] = 1; // Mark visited
+    
+    // Try all 4 directions
+    boolean found = findPath(grid, x+1, y, destX, destY) ||
+                   findPath(grid, x-1, y, destX, destY) ||
+                   findPath(grid, x, y+1, destX, destY) ||
+                   findPath(grid, x, y-1, destX, destY);
+    
+    grid[x][y] = 0; // Backtrack
+    return found;
+}
+```
+
+---
+
+## 📊 Time Complexity Analysis
+
+| Problem | Time Complexity | Space Complexity | Why? |
+|---------|----------------|------------------|------|
+| **Subsets** | O(n × 2^n) | O(n) | 2^n subsets, each takes O(n) to process |
+| **Permutations** | O(n! × n) | O(n) | n! permutations, each takes O(n) to build |
+| **N-Queens** | O(N!) | O(N²) | N! ways to place queens |
+| **Sudoku** | O(9^(n×n)) | O(n×n) | 9 choices per empty cell |
+| **Grid Ways** | O(2^(n+m)) | O(n+m) | 2 choices at each step |
+
+---
+
+## 🚀 Pro Tips for Backtracking
+
+### 1. **Optimization Techniques**
+- **Early Pruning**: Return immediately when invalid state detected
+- **Memoization**: Store results to avoid recomputation  
+- **Constraint Propagation**: Reduce search space using constraints
+
+### 2. **Common Mistakes to Avoid**
+- Forgetting to backtrack (undo changes)
+- Wrong base case conditions
+- Not checking bounds properly
+- Modifying global state without restoration
+
+### 3. **Problem Recognition Signs**
+- "Find all possible solutions"
+- "Generate all combinations/permutations"  
+- "Count number of ways"
+- "Place items with constraints"
+- "Path finding with obstacles"
+
+### 4. **Debugging Tips**
+- Print current state before and after recursive calls
+- Use proper indentation to visualize recursion depth
+- Check base cases thoroughly
+- Verify backtracking step undoes all changes
+
+---
+
+## 🎯 Practice Problems
+
+### Easy
+1. Generate all binary strings of length n
+2. Print all paths from top-left to bottom-right in matrix
+3. Generate all parentheses combinations
+
+### Medium  
+4. Word Search in 2D grid
+5. Combination Sum problem
+6. Palindrome partitioning
+
+### Hard
+7. N-Queens with different constraints
+8. Sudoku solver optimization
+9. Hamiltonian path problem
+
+---
+
+## 📝 Complete Example Usage
+
+```java
+public static void main(String[] args) {
+    // Q1: Array backtracking
+    int arr[] = new int[5];
+    changeArr(arr, 0, 1);
+    printArr(arr);
+    
+    // Q2: Find all subsets  
+    String str = "abc";
+    System.out.println("All subsets of '" + str + "':");
+    findSubset(str, "", 0);
+    
+    // Q3: Find all permutations
+    System.out.println("All permutations of '" + str + "':");
+    findPermutations(str, "");
+    
+    // Q4: N-Queens problem
+    int n = 4;
+    char board[][] = new char[n][n];
+    // Initialize board with 'X'
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            board[i][j] = 'X';
+        }
+    }
+    System.out.println("N-Queens solutions for " + n + "x" + n + " board:");
+    nQueens(board, 0);
+    
+    // Q5: Grid ways
+    System.out.println("Ways to reach (2,2): " + gridWays(0, 0, 3, 3));
+}
+```
+
