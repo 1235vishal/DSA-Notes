@@ -12,6 +12,7 @@ So I can open this repo anytime and revise everything quickly 🚀.
 5. 2D Arrays ✅
 6. Strings ✅
 7. Backtracking ✅
+8. ArrayList ✅
 
 
 ---
@@ -1784,3 +1785,811 @@ public static void main(String[] args) {
 }
 ```
 
+# 📋 ArrayList in Java
+
+## 🔹 What is ArrayList?
+
+**ArrayList** is a **resizable array** implementation of the `List` interface in Java. It's part of the **Java Collections Framework** and provides dynamic arrays that can grow and shrink during runtime.
+
+### Key Features:
+- **Dynamic Size**: Can grow/shrink automatically
+- **Index-Based Access**: O(1) random access using index
+- **Allows Duplicates**: Can store duplicate elements
+- **Maintains Insertion Order**: Elements remain in the order they were added
+- **Not Thread-Safe**: Use `Vector` or `Collections.synchronizedList()` for thread safety
+
+---
+
+## 🏗️ ArrayList Declaration & Initialization
+
+### Basic Declaration
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+
+// Integer ArrayList
+ArrayList<Integer> list = new ArrayList<>();
+
+// String ArrayList  
+ArrayList<String> names = new ArrayList<>();
+
+// Boolean ArrayList
+ArrayList<Boolean> flags = new ArrayList<>();
+
+// Float ArrayList
+ArrayList<Float> prices = new ArrayList<>();
+```
+
+### Different Ways to Initialize
+```java
+// Method 1: Add elements one by one
+ArrayList<Integer> list1 = new ArrayList<>();
+list1.add(1);
+list1.add(2);
+list1.add(3);
+
+// Method 2: Using Arrays.asList()
+ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+// Method 3: Using Collections.nCopies() - for repeated elements
+ArrayList<Integer> list3 = new ArrayList<>(Collections.nCopies(5, 0)); // [0,0,0,0,0]
+
+// Method 4: Copy from another collection
+ArrayList<Integer> list4 = new ArrayList<>(list1);
+
+// Method 5: With initial capacity (performance optimization)
+ArrayList<Integer> list5 = new ArrayList<>(100); // Initial capacity of 100
+```
+
+---
+
+## ⚡ ArrayList Operations & Time Complexities
+
+### 1. **Add Operations**
+
+#### Add at End - O(1) Amortized
+```java
+ArrayList<Integer> list = new ArrayList<>();
+list.add(1);    // [1]
+list.add(2);    // [1, 2] 
+list.add(3);    // [1, 2, 3]
+System.out.println(list); // Output: [1, 2, 3]
+```
+
+#### Add at Specific Index - O(n)
+```java
+list.add(1, 15); // Insert 15 at index 1
+System.out.println(list); // Output: [1, 15, 2, 3]
+
+// Why O(n)? Because elements need to be shifted right
+```
+
+### 2. **Get Operation - O(1)**
+```java
+ArrayList<Integer> list = new ArrayList<>(Arrays.asList(10, 20, 30, 40, 50));
+
+int element = list.get(2); // Gets element at index 2
+System.out.println("Element at index 2: " + element); // Output: 30
+
+// Direct access using index - no traversal needed
+```
+
+### 3. **Remove Operations**
+
+#### Remove by Index - O(n)  
+```java
+list.remove(2); // Removes element at index 2
+System.out.println(list); // Output: [10, 20, 40, 50]
+```
+
+#### Remove by Value - O(n)
+```java
+list.remove(Integer.valueOf(40)); // Removes first occurrence of 40
+System.out.println(list); // Output: [10, 20, 50]
+
+// Note: list.remove(40) would try to remove index 40, not value 40!
+```
+
+### 4. **Set Operation - O(1)**
+```java
+list.set(1, 100); // Replace element at index 1 with 100
+System.out.println(list); // Output: [10, 100, 50]
+```
+
+### 5. **Search Operations**
+
+#### Contains - O(n)
+```java
+boolean exists = list.contains(100);
+System.out.println("Contains 100: " + exists); // Output: true
+```
+
+#### Index of Element - O(n)
+```java
+int index = list.indexOf(100); // First occurrence
+System.out.println("Index of 100: " + index); // Output: 1
+
+int lastIndex = list.lastIndexOf(100); // Last occurrence
+System.out.println("Last index of 100: " + lastIndex); // Output: 1
+```
+
+### 6. **Size & Utility Methods**
+```java
+System.out.println("Size: " + list.size()); // Output: 3
+System.out.println("Is Empty: " + list.isEmpty()); // Output: false
+
+list.clear(); // Remove all elements
+System.out.println("After clear: " + list); // Output: []
+```
+
+---
+
+## 🔄 ArrayList Iteration Methods
+
+### 1. **Traditional for Loop**
+```java
+ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+for(int i = 0; i < list.size(); i++) {
+    System.out.print(list.get(i) + " ");
+}
+System.out.println(); // Output: 1 2 3 4 5
+```
+
+### 2. **Enhanced for Loop (for-each)**
+```java
+for(int num : list) {
+    System.out.print(num + " ");
+}
+System.out.println(); // Output: 1 2 3 4 5
+```
+
+### 3. **Reverse Iteration**
+```java
+for(int i = list.size() - 1; i >= 0; i--) {
+    System.out.print(list.get(i) + " ");
+}
+System.out.println(); // Output: 5 4 3 2 1
+```
+
+### 4. **Using Iterator**
+```java
+Iterator<Integer> it = list.iterator();
+while(it.hasNext()) {
+    System.out.print(it.next() + " ");
+}
+System.out.println(); // Output: 1 2 3 4 5
+```
+
+### 5. **Using Streams (Java 8+)**
+```java
+list.stream().forEach(num -> System.out.print(num + " ")); // Output: 1 2 3 4 5
+```
+
+---
+
+## 🔧 Utility Functions for ArrayList
+
+### 1. **Swap Two Elements**
+```java
+public static void swapElements(ArrayList<Integer> list, int idx1, int idx2) {
+    int temp = list.get(idx1);
+    list.set(idx1, list.get(idx2));
+    list.set(idx2, temp);
+}
+
+// Usage:
+ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(2, 5, 9, 3, 6));
+System.out.println("Before swap: " + numbers); // [2, 5, 9, 3, 6]
+swapElements(numbers, 1, 3);
+System.out.println("After swap: " + numbers);  // [2, 3, 9, 5, 6]
+```
+
+### 2. **Find Maximum Element**
+```java
+public static int findMax(ArrayList<Integer> list) {
+    if(list.isEmpty()) return Integer.MIN_VALUE;
+    
+    int max = list.get(0);
+    for(int i = 1; i < list.size(); i++) {
+        max = Math.max(max, list.get(i));
+    }
+    return max;
+}
+
+// Built-in method:
+int max = Collections.max(list);
+```
+
+### 3. **Find Minimum Element**
+```java
+public static int findMin(ArrayList<Integer> list) {
+    if(list.isEmpty()) return Integer.MAX_VALUE;
+    
+    int min = list.get(0);
+    for(int i = 1; i < list.size(); i++) {
+        min = Math.min(min, list.get(i));
+    }
+    return min;
+}
+
+// Built-in method:
+int min = Collections.min(list);
+```
+
+---
+
+## 📊 ArrayList Sorting
+
+### 1. **Ascending Order**
+```java
+ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(9, 2, 5, 1, 8, 3));
+
+Collections.sort(numbers); // Built-in sort
+System.out.println("Ascending: " + numbers); // [1, 2, 3, 5, 8, 9]
+```
+
+### 2. **Descending Order**
+```java
+Collections.sort(numbers, Collections.reverseOrder());
+System.out.println("Descending: " + numbers); // [9, 8, 5, 3, 2, 1]
+```
+
+### 3. **Custom Sorting (String by Length)**
+```java
+ArrayList<String> names = new ArrayList<>(Arrays.asList("Alice", "Bob", "Charlie", "David"));
+
+// Sort by string length
+Collections.sort(names, (a, b) -> a.length() - b.length());
+System.out.println("By length: " + names); // [Bob, Alice, David, Charlie]
+```
+
+---
+
+## 🧮 Multi-Dimensional ArrayList
+
+### 2D ArrayList (ArrayList of ArrayLists)
+```java
+// Create main list
+ArrayList<ArrayList<Integer>> mainList = new ArrayList<>();
+
+// Create sub-lists  
+ArrayList<Integer> list1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));    // 1×1, 1×2, 1×3...
+ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(2, 4, 6, 8, 10));   // 2×1, 2×2, 2×3...  
+ArrayList<Integer> list3 = new ArrayList<>(Arrays.asList(3, 6, 9, 12, 15));  // 3×1, 3×2, 3×3...
+
+// Add sub-lists to main list
+mainList.add(list1);
+mainList.add(list2); 
+mainList.add(list3);
+
+System.out.println("2D ArrayList: " + mainList);
+// Output: [[1, 2, 3, 4, 5], [2, 4, 6, 8, 10], [3, 6, 9, 12, 15]]
+```
+
+### Accessing 2D ArrayList Elements
+```java
+// Access element at row 1, column 2
+System.out.println("Element at (1,2): " + mainList.get(1).get(2)); // Output: 6
+
+// Print all elements using nested loops
+for(int i = 0; i < mainList.size(); i++) {
+    ArrayList<Integer> currentList = mainList.get(i);
+    for(int j = 0; j < currentList.size(); j++) {
+        System.out.print(currentList.get(j) + " ");
+    }
+    System.out.println();
+}
+```
+
+### Dynamic 2D ArrayList Creation
+```java
+ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
+
+for(int i = 1; i <= 3; i++) {
+    ArrayList<Integer> row = new ArrayList<>();
+    for(int j = 1; j <= 4; j++) {
+        row.add(i * j); // Multiplication table
+    }
+    matrix.add(row);
+}
+
+System.out.println("Dynamic 2D List: " + matrix);
+// Output: [[1, 2, 3, 4], [2, 4, 6, 8], [3, 6, 9, 12]]
+```
+
+---
+
+## 🎯 Important ArrayList Problems
+
+### 1. **Container With Most Water (Two Pointers)**
+**Problem**: Find two lines that can contain maximum water  
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+
+```java
+// Brute Force - O(n²)
+public static int maxWaterBruteForce(ArrayList<Integer> height) {
+    int maxWater = 0;
+    for(int i = 0; i < height.size(); i++) {
+        for(int j = i + 1; j < height.size(); j++) {
+            int h = Math.min(height.get(i), height.get(j));
+            int width = j - i;
+            int water = h * width;
+            maxWater = Math.max(maxWater, water);
+        }
+    }
+    return maxWater;
+}
+
+// Optimized Two Pointers - O(n) 
+public static int maxWaterOptimized(ArrayList<Integer> height) {
+    int maxWater = 0;
+    int left = 0;
+    int right = height.size() - 1;
+    
+    while(left < right) {
+        // Calculate water area
+        int h = Math.min(height.get(left), height.get(right));
+        int width = right - left;
+        int currentWater = h * width;
+        maxWater = Math.max(maxWater, currentWater);
+        
+        // Move pointer with smaller height
+        if(height.get(left) < height.get(right)) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return maxWater;
+}
+```
+
+### 2. **Pair Sum in Sorted Array**
+**Problem**: Find if any pair has target sum in sorted array  
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+
+```java
+// Brute Force - O(n²)
+public static boolean pairSumBrute(ArrayList<Integer> list, int target) {
+    for(int i = 0; i < list.size(); i++) {
+        for(int j = i + 1; j < list.size(); j++) {
+            if(list.get(i) + list.get(j) == target) {
+                System.out.println("Pair found: " + list.get(i) + " + " + list.get(j) + " = " + target);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Two Pointers - O(n)
+public static boolean pairSumTwoPointer(ArrayList<Integer> list, int target) {
+    int left = 0;
+    int right = list.size() - 1;
+    
+    while(left < right) {
+        int sum = list.get(left) + list.get(right);
+        
+        if(sum == target) {
+            System.out.println("Pair found: " + list.get(left) + " + " + list.get(right) + " = " + target);
+            return true;
+        }
+        else if(sum < target) {
+            left++; // Need larger sum
+        }
+        else {
+            right--; // Need smaller sum
+        }
+    }
+    return false;
+}
+```
+
+### 3. **Pair Sum in Sorted Rotated Array**
+**Problem**: Find pair sum in rotated sorted array like [11, 15, 6, 8, 9, 10]  
+**Time Complexity**: O(n) | **Space Complexity**: O(1)
+
+```java
+public static boolean pairSumRotated(ArrayList<Integer> list, int target) {
+    int n = list.size();
+    int breakPoint = -1;
+    
+    // Find break point (pivot)
+    for(int i = 0; i < n - 1; i++) {
+        if(list.get(i) > list.get(i + 1)) {
+            breakPoint = i;
+            break;
+        }
+    }
+    
+    // If no break point, array is not rotated
+    if(breakPoint == -1) {
+        return pairSumTwoPointer(list, target);
+    }
+    
+    int left = breakPoint + 1; // Smallest element
+    int right = breakPoint;    // Largest element
+    
+    while(left != right) {
+        int sum = list.get(left) + list.get(right);
+        
+        if(sum == target) {
+            System.out.println("Pair found: " + list.get(left) + " + " + list.get(right) + " = " + target);
+            return true;
+        }
+        else if(sum < target) {
+            left = (left + 1) % n; // Move circularly
+        }
+        else {
+            right = (n + right - 1) % n; // Move circularly
+        }
+    }
+    return false;
+}
+```
+
+### 4. **Find Lonely Numbers**
+**Problem**: Find numbers that appear exactly once and their neighbors don't exist  
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+
+```java
+public static ArrayList<Integer> findLonelyNumbers(ArrayList<Integer> nums) {
+    HashMap<Integer, Integer> freq = new HashMap<>();
+    ArrayList<Integer> result = new ArrayList<>();
+    
+    // Count frequency
+    for(int num : nums) {
+        freq.put(num, freq.getOrDefault(num, 0) + 1);
+    }
+    
+    // Check lonely condition
+    for(int num : nums) {
+        if(freq.get(num) == 1 && 
+           !freq.containsKey(num - 1) && 
+           !freq.containsKey(num + 1)) {
+            result.add(num);
+        }
+    }
+    return result;
+}
+```
+
+### 5. **Most Frequent Number Following Key**
+**Problem**: Find most frequent number that appears after given key  
+**Time Complexity**: O(n) | **Space Complexity**: O(n)
+
+```java
+public static int mostFrequentFollowing(ArrayList<Integer> nums, int key) {
+    HashMap<Integer, Integer> freq = new HashMap<>();
+    
+    for(int i = 0; i < nums.size() - 1; i++) {
+        if(nums.get(i) == key) {
+            int following = nums.get(i + 1);
+            freq.put(following, freq.getOrDefault(following, 0) + 1);
+        }
+    }
+    
+    int maxCount = 0;
+    int result = -1;
+    for(Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+        if(entry.getValue() > maxCount) {
+            maxCount = entry.getValue();
+            result = entry.getKey();
+        }
+    }
+    return result;
+}
+```
+
+---
+
+## ⚠️ ArrayList vs Array - When to Use What?
+
+| Feature | Array | ArrayList |
+|---------|-------|-----------|
+| **Size** | Fixed | Dynamic |
+| **Memory** | Less overhead | More overhead |
+| **Performance** | Faster for basic operations | Slightly slower |
+| **Generics** | No built-in generics | Full generics support |
+| **Methods** | Limited built-in methods | Rich set of methods |
+| **Primitives** | Can store primitives | Only stores objects |
+
+### Use Array When:
+- Fixed size is sufficient
+- Maximum performance is critical
+- Working with primitives directly
+- Memory usage is a concern
+
+### Use ArrayList When:
+- Dynamic size needed
+- Need rich functionality (sort, search, etc.)
+- Working with collections framework
+- Code readability and maintainability important
+
+---
+
+## 🚀 Performance Tips & Best Practices
+
+### 1. **Initial Capacity Optimization**
+```java
+// ❌ Poor performance for large datasets
+ArrayList<Integer> list1 = new ArrayList<>();
+for(int i = 0; i < 100000; i++) {
+    list1.add(i); // May cause multiple resizing
+}
+
+// ✅ Better performance - pre-allocate capacity
+ArrayList<Integer> list2 = new ArrayList<>(100000);
+for(int i = 0; i < 100000; i++) {
+    list2.add(i); // No resizing needed
+}
+```
+
+### 2. **Use Enhanced For Loop When Index Not Needed**
+```java
+// ❌ Unnecessary index usage
+for(int i = 0; i < list.size(); i++) {
+    System.out.println(list.get(i));
+}
+
+// ✅ Cleaner and slightly more efficient
+for(int element : list) {
+    System.out.println(element);
+}
+```
+
+### 3. **Remove Elements Properly in Loop**
+```java
+// ❌ Wrong way - can cause IndexOutOfBoundsException
+for(int i = 0; i < list.size(); i++) {
+    if(list.get(i) % 2 == 0) {
+        list.remove(i); // Shifts elements, affects indices
+    }
+}
+
+// ✅ Correct way - iterate backwards
+for(int i = list.size() - 1; i >= 0; i--) {
+    if(list.get(i) % 2 == 0) {
+        list.remove(i);
+    }
+}
+
+// ✅ Alternative - using Iterator
+Iterator<Integer> it = list.iterator();
+while(it.hasNext()) {
+    if(it.next() % 2 == 0) {
+        it.remove();
+    }
+}
+```
+
+### 4. **Avoid Autoboxing/Unboxing Overhead**
+```java
+// ❌ Inefficient for primitive operations
+ArrayList<Integer> numbers = new ArrayList<>();
+for(int i = 0; i < 1000; i++) {
+    numbers.add(i); // Autoboxing int → Integer
+    int sum += numbers.get(i); // Unboxing Integer → int
+}
+
+// ✅ Use primitive collections if available (like TIntArrayList in Trove)
+// Or consider using arrays for performance-critical code
+```
+
+---
+
+## 🎯 Common Interview Questions
+
+### 1. **Difference between ArrayList and LinkedList?**
+```java
+// ArrayList - Good for random access, bad for insertions/deletions in middle
+// LinkedList - Good for insertions/deletions, bad for random access
+
+ArrayList<Integer> arrayList = new ArrayList<>();
+LinkedList<Integer> linkedList = new LinkedList<>();
+
+// Random access
+arrayList.get(1000);    // O(1)
+linkedList.get(1000);   // O(n) - needs traversal
+
+// Insertion at beginning  
+arrayList.add(0, 100);  // O(n) - needs to shift elements
+linkedList.add(0, 100); // O(1) - just change pointers
+```
+
+### 2. **How does ArrayList handle resizing?**
+```java
+// ArrayList starts with capacity 10 (default)
+// When full, it increases capacity by 50% (capacity = oldCapacity + (oldCapacity >> 1))
+// Example: 10 → 15 → 22 → 33 → 49 → 73...
+
+ArrayList<Integer> list = new ArrayList<>(); // Initial capacity = 10
+// Add 11th element triggers resize to 15
+// Add 16th element triggers resize to 22
+```
+
+### 3. **Clone ArrayList - Shallow vs Deep Copy**
+```java
+// Shallow copy - only copies references
+ArrayList<ArrayList<Integer>> original = new ArrayList<>();
+original.add(new ArrayList<>(Arrays.asList(1, 2, 3)));
+
+ArrayList<ArrayList<Integer>> shallow = (ArrayList<ArrayList<Integer>>) original.clone();
+shallow.get(0).add(4); // This affects original too!
+
+System.out.println("Original: " + original); // [[1, 2, 3, 4]]
+
+// Deep copy - copies actual objects
+ArrayList<ArrayList<Integer>> deep = new ArrayList<>();
+for(ArrayList<Integer> sublist : original) {
+    deep.add(new ArrayList<>(sublist));
+}
+```
+
+---
+
+## 📚 Complete Example Program
+
+```java
+import java.util.*;
+
+public class ArrayListDemo {
+    
+    // Utility function to swap elements
+    public static void swapElements(ArrayList<Integer> list, int idx1, int idx2) {
+        int temp = list.get(idx1);
+        list.set(idx1, list.get(idx2));
+        list.set(idx2, temp);
+    }
+    
+    // Container with most water - optimized
+    public static int maxWater(ArrayList<Integer> height) {
+        int maxWater = 0;
+        int left = 0, right = height.size() - 1;
+        
+        while(left < right) {
+            int h = Math.min(height.get(left), height.get(right));
+            int width = right - left;
+            maxWater = Math.max(maxWater, h * width);
+            
+            if(height.get(left) < height.get(right)) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return maxWater;
+    }
+    
+    // Pair sum in sorted array
+    public static boolean pairSum(ArrayList<Integer> list, int target) {
+        int left = 0, right = list.size() - 1;
+        
+        while(left < right) {
+            int sum = list.get(left) + list.get(right);
+            if(sum == target) {
+                System.out.println("Pair: " + list.get(left) + " + " + list.get(right) + " = " + target);
+                return true;
+            }
+            else if(sum < target) left++;
+            else right--;
+        }
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("=== ArrayList Demo ===\n");
+        
+        // 1. Basic operations
+        ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(2, 5, 9, 3, 6));
+        System.out.println("Original list: " + numbers);
+        
+        // Swap elements
+        swapElements(numbers, 1, 3);
+        System.out.println("After swapping index 1 & 3: " + numbers);
+        
+        // Sorting
+        Collections.sort(numbers);
+        System.out.println("Ascending order: " + numbers);
+        
+        Collections.sort(numbers, Collections.reverseOrder());
+        System.out.println("Descending order: " + numbers);
+        
+        // 2. Multi-dimensional ArrayList
+        System.out.println("\n=== 2D ArrayList ===");
+        ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
+        
+        for(int i = 1; i <= 3; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for(int j = 1; j <= 4; j++) {
+                row.add(i * j);
+            }
+            matrix.add(row);
+        }
+        
+        System.out.println("2D ArrayList: " + matrix);
+        
+        // Print using nested loops
+        System.out.println("Matrix format:");
+        for(ArrayList<Integer> row : matrix) {
+            for(int element : row) {
+                System.out.print(element + "\t");
+            }
+            System.out.println();
+        }
+        
+        // 3. Container with most water
+        System.out.println("\n=== Container With Most Water ===");
+        ArrayList<Integer> heights = new ArrayList<>(Arrays.asList(1, 8, 6, 2, 5, 4, 8, 3, 7));
+        System.out.println("Heights: " + heights);
+        System.out.println("Max water: " + maxWater(heights));
+        
+        // 4. Pair sum problem
+        System.out.println("\n=== Pair Sum Problem ===");
+        ArrayList<Integer> sortedList = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+        int target = 9;
+        System.out.println("Sorted list: " + sortedList);
+        System.out.println("Target sum: " + target);
+        System.out.println("Pair exists: " + pairSum(sortedList, target));
+        
+        // 5. Find max and min
+        System.out.println("\n=== Min/Max Operations ===");
+        ArrayList<Integer> randomList = new ArrayList<>(Arrays.asList(45, 12, 78, 23, 67, 89, 34));
+        System.out.println("Random list: " + randomList);
+        System.out.println("Maximum: " + Collections.max(randomList));
+        System.out.println("Minimum: " + Collections.min(randomList));
+        
+        // 6. Various iteration methods
+        System.out.println("\n=== Iteration Methods ===");
+        ArrayList<String> fruits = new ArrayList<>(Arrays.asList("Apple", "Banana", "Orange", "Mango"));
+        
+        System.out.print("For loop: ");
+        for(int i = 0; i < fruits.size(); i++) {
+            System.out.print(fruits.get(i) + " ");
+        }
+        
+        System.out.print("\nFor-each: ");
+        for(String fruit : fruits) {
+            System.out.print(fruit + " ");
+        }
+        
+        System.out.print("\nReverse: ");
+        for(int i = fruits.size() - 1; i >= 0; i--) {
+            System.out.print(fruits.get(i) + " ");
+        }
+        
+        System.out.println("\n\n=== Demo Complete ===");
+    }
+}
+```
+
+---
+
+## 🎯 Key Takeaways
+
+### ✅ **Remember These Points:**
+1. **ArrayList is resizable** - grows/shrinks dynamically
+2. **Index-based access** - O(1) random access using get()
+3. **Insertion/deletion in middle** - O(n) due to shifting
+4. **Use Collections.sort()** - for sorting operations
+5. **Two-pointer technique** - powerful for many array problems
+6. **Initial capacity** - set it for performance optimization
+7. **Enhanced for-loop** - cleaner when index not needed
+8. **Remove in reverse** - when removing elements in loop
+
+### 🚨 **Common Pitfalls:**
+- Using `remove(int)` vs `remove(Object)` - be careful with Integer
+- Modifying list while iterating (ConcurrentModificationException)
+- Not considering initial capacity for large datasets
+- Forgetting that ArrayList is not thread-safe
+
+### 🏆 **Interview Tips:**
+- Explain time complexities of different operations
+- Know when to use ArrayList vs LinkedList vs Array
+- Practice two-pointer problems extensively
+- Understand ArrayList internals (resizing, capacity)
+
+---
+
+*Happy coding! 🚀 Master ArrayList and ace your DSA interviews! 💪*
